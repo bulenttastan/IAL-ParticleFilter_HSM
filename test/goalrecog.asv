@@ -1,0 +1,28 @@
+clear; close all; clc; hold on;
+load '../data/goalrecognition2';
+tr=1;
+X=X(tr,:);Y=Y(tr,:);OX=OX(tr,:);OY=OY(tr,:);T=T(tr,:);
+addpath('..');
+plot(FX,FY,'xg');
+plot(X,Y,'r');
+plot(OX,OY,'or');
+x=zeros(length(FX),length(X));
+
+goal=1;
+[b,kg,c1,c2,ko,c3,c4,V] = params();
+for i=2:length(FX)
+    [t,y]=observer(FX(i),FY(i),OX,OY,V,[0 0 0 0],b,kg,c1,c2,ko,c3,c4);
+    p(i).x=y(:,3)';
+    p(i).y=y(:,4)';
+    plot(p(i).x,p(i).y);
+end
+[t,y]=observer(X(end),Y(end),OX,OY,V,[0 0 0 0],b,kg,c1,c2,ko,c3,c4);
+p(1).x=y(:,3)';
+p(1).y=y(:,4)';
+plot(p(1).x,p(1).y);
+
+for i=1:length(X)
+    plot(X(i),Y(i),'.g');
+    sumsquare( x1,,x2,y2,T(1:i),1);
+    waitforbuttonpress;
+end
